@@ -1,8 +1,39 @@
 import React, { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export default function LoginPage({ onLogin }) {
+export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Fixed Admin Credentials
+    if (email === "admin@payplex.com" && password === "Admin@1234") {
+      setError("");
+
+      login();
+
+      if (rememberMe) {
+        localStorage.setItem("rememberAdmin", JSON.stringify({ email }));
+      }
+
+      navigate("/dashboard");
+    } else {
+      setError("Invalid admin credentials");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-950 to-slate-800 px-4">
@@ -12,30 +43,30 @@ export default function LoginPage({ onLogin }) {
           <h1 className="text-3xl font-bold text-white">
             PayPlex Finance Dashboard
           </h1>
+
           <p className="text-slate-300 mt-2">
             Securely manage your financial operations
           </p>
         </div>
 
         {/* Login Form */}
-        <form
-          className="space-y-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            onLogin();
-          }}
-        >
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Email Field */}
           <div>
             <label className="block text-sm font-medium text-slate-200 mb-2">
               Email Address
             </label>
+
             <div className="relative">
               <Mail className="absolute left-3 top-3.5 text-slate-400 w-5 h-5" />
+
               <input
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/20 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
           </div>
@@ -45,13 +76,19 @@ export default function LoginPage({ onLogin }) {
             <label className="block text-sm font-medium text-slate-200 mb-2">
               Password
             </label>
+
             <div className="relative">
               <Lock className="absolute left-3 top-3.5 text-slate-400 w-5 h-5" />
+
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-12 py-3 rounded-lg bg-white/20 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
               />
+
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -66,22 +103,27 @@ export default function LoginPage({ onLogin }) {
             </div>
           </div>
 
+          {/* Error Message */}
+          {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+
           {/* Remember Me + Forgot Password */}
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center text-slate-300">
               <input
                 type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
                 className="mr-2 rounded border-slate-400"
               />
               Remember me
             </label>
 
-            <a
-              href="#"
-              className="text-blue-400 hover:text-blue-300 transition"
+            <Link
+              to="/forgot-password"
+              className="text-blue-400 hover:underline"
             >
-              Forgot password?
-            </a>
+              Forgot Password?
+            </Link>
           </div>
 
           {/* Login Button */}
@@ -92,6 +134,17 @@ export default function LoginPage({ onLogin }) {
             Login
           </button>
         </form>
+
+        {/* Demo Credentials */}
+        <div className="mt-6 bg-white/10 border border-white/10 rounded-xl p-4 text-sm text-slate-300">
+          <p className="font-semibold mb-2 text-white">
+            Demo Admin Credentials
+          </p>
+
+          <p>Email: admin@payplex.com</p>
+
+          <p>Password: Admin@1234</p>
+        </div>
 
         {/* Footer */}
         <p className="text-center text-slate-400 text-sm mt-8">

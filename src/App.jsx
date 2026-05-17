@@ -1,27 +1,67 @@
-import React, { useState } from "react";
-import LoginPage from "./Pages/LoginPage";
-import Dashboard from "./Pages/Dashboard";
-import UserManagement from "./Pages/UserManagement";
-import ProductManagement from "./Pages/ProductManagement";
-import OrderManagement from "./Pages/OrderManagement";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import LoginPage from "./pages/LoginPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import Dashboard from "./pages/Dashboard";
+import UserManagement from "./pages/UserManagement";
+import ProductManagement from "./pages/ProductManagement";
+import OrderManagement from "./pages/OrderManagement";
+
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./componants/ProtectedRoute";
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activePage, setActivePage] = useState("dashboard");
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-  if (!isLoggedIn) {
-    return <LoginPage onLogin={() => setIsLoggedIn(true)} />;
-  }
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-  if (activePage === "users") {
-    return <UserManagement onBack={() => setActivePage("dashboard")} />;
-  }
-  if (activePage === "products") {
-    return <ProductManagement onBack={() => setActivePage("dashboard")} />;
-  }
-  if (activePage === "orders") {
-    return <OrderManagement onBack={() => setActivePage("dashboard")} />;
-  }
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <UserManagement />
+              </ProtectedRoute>
+            }
+          />
 
-  return <Dashboard onNavigate={setActivePage} />;
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <ProductManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <OrderManagement />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
 }
