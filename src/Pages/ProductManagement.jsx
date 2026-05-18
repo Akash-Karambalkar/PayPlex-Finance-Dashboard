@@ -82,7 +82,6 @@ export default function ProductManagement() {
     image: "",
   });
 
-  // Load Products
   useEffect(() => {
     const savedProducts = JSON.parse(localStorage.getItem("products"));
 
@@ -93,12 +92,10 @@ export default function ProductManagement() {
     }
   }, []);
 
-  // Save Products
   useEffect(() => {
     localStorage.setItem("products", JSON.stringify(products));
   }, [products]);
 
-  // Input Handler
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -108,7 +105,6 @@ export default function ProductManagement() {
     });
   };
 
-  // Image Upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
 
@@ -124,7 +120,6 @@ export default function ProductManagement() {
     }
   };
 
-  // Save Product
   const handleSaveProduct = () => {
     if (!formData.name || !formData.category) return;
 
@@ -164,7 +159,6 @@ export default function ProductManagement() {
     setPreviewImage(null);
   };
 
-  // Edit Product
   const handleEditProduct = (product) => {
     setEditingProduct(product);
     setFormData(product);
@@ -172,14 +166,12 @@ export default function ProductManagement() {
     setShowForm(true);
   };
 
-  // Delete Product
   const handleDeleteProduct = (id) => {
     const updatedProducts = products.filter((product) => product.id !== id);
 
     setProducts(updatedProducts);
   };
 
-  // Filtering
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -195,7 +187,6 @@ export default function ProductManagement() {
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
-  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const currentProducts = filteredProducts.slice(
@@ -206,7 +197,6 @@ export default function ProductManagement() {
   return (
     <Layout title="Product Management">
       <div className="min-h-screen bg-slate-100 p-8">
-        {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <button
             onClick={() => {
@@ -231,7 +221,6 @@ export default function ProductManagement() {
           </button>
         </div>
 
-        {/* Search + Filters */}
         <div className="bg-white p-4 rounded-xl shadow mb-6 flex flex-col md:flex-row gap-4 justify-between">
           <div className="relative w-full md:w-1/3">
             <Search className="absolute left-3 top-3 text-slate-400" />
@@ -277,7 +266,6 @@ export default function ProductManagement() {
           </div>
         </div>
 
-        {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {currentProducts.map((product) => (
             <div
@@ -336,7 +324,6 @@ export default function ProductManagement() {
           ))}
         </div>
 
-        {/* Product Detail Modal */}
         {selectedProduct && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-white rounded-2xl p-8 w-full max-w-lg relative">
@@ -369,7 +356,6 @@ export default function ProductManagement() {
           </div>
         )}
 
-        {/* Add/Edit Product Form */}
         {showForm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-y-auto">
             <div className="bg-white rounded-2xl shadow p-8 w-full max-w-3xl relative">
@@ -441,7 +427,6 @@ export default function ProductManagement() {
                 rows="4"
               />
 
-              {/* Image Upload */}
               <div className="mt-6">
                 <label className="flex items-center gap-2 cursor-pointer bg-slate-100 px-4 py-3 rounded-lg w-fit">
                   <Upload size={18} /> Upload Product Image
@@ -480,7 +465,6 @@ export default function ProductManagement() {
           </div>
         )}
 
-        {/* Pagination */}
         <div className="flex justify-between items-center mt-8">
           <button
             onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}

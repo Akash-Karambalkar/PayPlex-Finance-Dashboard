@@ -42,9 +42,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Login Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Email Field */}
           <div>
             <label className="block text-sm font-medium text-slate-200 mb-2">
               Email Address
@@ -64,7 +62,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Password Field */}
           <div>
             <label className="block text-sm font-medium text-slate-200 mb-2">
               Password
@@ -96,7 +93,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Error Message */}
           {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 
           {/* Remember Me + Forgot Password */}
@@ -119,7 +115,6 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          {/* Login Button */}
           <button
             type="submit"
             className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white font-semibold shadow-lg"
@@ -128,7 +123,6 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Demo Credentials */}
         <div className="mt-6 bg-white/10 border border-white/10 rounded-xl p-4 text-sm text-slate-300">
           <p className="font-semibold mb-2 text-white">
             Demo Admin Credentials
@@ -139,7 +133,6 @@ export default function LoginPage() {
           <p>Password: Admin@1234</p>
         </div>
 
-        {/* Footer */}
         <p className="text-center text-slate-400 text-sm mt-8">
           © 2026 PayPlex Finance Dashboard
         </p>
