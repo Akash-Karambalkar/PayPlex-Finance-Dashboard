@@ -19,16 +19,9 @@ export default function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Fixed Admin Credentials
-    if (email === "admin@payplex.com" && password === "Admin@1234") {
-      setError("");
+    const success = login(email, password);
 
-      login();
-
-      if (rememberMe) {
-        localStorage.setItem("rememberAdmin", JSON.stringify({ email }));
-      }
-
+    if (success) {
       navigate("/dashboard");
     } else {
       setError("Invalid admin credentials");
