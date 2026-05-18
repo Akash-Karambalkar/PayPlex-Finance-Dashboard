@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SideBar";
 import Navbar from "./Navbar";
 
 export default function Layout({ children, title }) {

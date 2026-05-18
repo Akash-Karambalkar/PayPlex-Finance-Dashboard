@@ -16,7 +16,6 @@ export default function Navbar({ title }) {
     navigate("/login");
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -33,7 +32,6 @@ export default function Navbar({ title }) {
 
   return (
     <div className="flex justify-between items-center mb-8 bg-white p-4 rounded-xl shadow">
-      {/* Page Title */}
       <h1 className="text-3xl font-bold text-slate-800">{title}</h1>
 
       {/* Right Section */}
@@ -46,7 +44,6 @@ export default function Navbar({ title }) {
           </span>
         </button>
 
-        {/* Profile Dropdown */}
         <div ref={dropdownRef} className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -59,7 +56,6 @@ export default function Navbar({ title }) {
             </div>
           </button>
 
-          {/* Dropdown Menu */}
           {dropdownOpen && (
             <div className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl border z-50">
               <button
